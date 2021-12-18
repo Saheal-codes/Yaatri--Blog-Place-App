@@ -16,7 +16,7 @@ exports.verifysess = async (req, res, next) => {
             next();
         }
         else {
-            res.status(401).send({ message: "This token nit valididd" })
+            res.status(401).send({ message: "This token nit validd" })
         }
 
     } catch (err) {

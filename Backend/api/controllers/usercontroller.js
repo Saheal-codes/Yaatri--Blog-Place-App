@@ -2,14 +2,14 @@ const Usermodel = require("../models/Usermodel.js")
 const jwt = require("jsonwebtoken")
 const placemodel = require("../models/placemodels")
 
-exports.verifysess = async (req, res, next) => {
+exports.verifysession = async (req, res, next) => {
     const token = req.body.token
     if (!token) {
         return res.status(401).send({ message: "There is no token" })
     }
     try {
         var decoded = jwt.verify(token, 'secretkey');
-        var userdoc = await Usermodel.findOne({ _id: decoded._id })
+        var userdoc = await Usermodel.findOne({ _id: decoded._id }) // _id is a default 
         userdoc
             ? res.send({ message: "You are logged in !", userdoc })
             : res.status(401).send({ message: "This token nit valididd" })

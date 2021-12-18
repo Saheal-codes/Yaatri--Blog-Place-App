@@ -1,6 +1,5 @@
 const usercontroller= require ("../controllers/usercontroller")
 const router = require("express").Router()
-const BlogController = require("../controllers/blogcontroller")
 const placecontroller= require ("../controllers/placecontroller")
 const authmiddleware=require ("../middleware/authmiddleware")
 const multer=require("multer")
@@ -30,12 +29,6 @@ const imageUpload = multer({
   }
 }) 
 
-router.post("/blogs/create/",BlogController.create_blog)
-router.get("/blogs/read/:blog_id",BlogController.read_blog)
-router.post("/blogs/readall/",BlogController.read_all_blogs)
-router.put("/blogs/update/:blog_id",BlogController.update_blog)
-router.delete("/blogs/delete/:blog_id",BlogController.delete_blog)
-
 router.post("/login/", usercontroller.login)
 router.post("/register/", imageUpload.any(), usercontroller.register)
 router.post("/verify/", usercontroller.verifysess)
@@ -44,7 +37,7 @@ router.post("/addnewplace/", imageUpload.any(), authmiddleware.verifysess, place
 router.delete("/deleteplace/", placecontroller.deleteplace)
 router.delete("/deleteplace/:placeid", placecontroller.deleteplace)
 router.put("/updateplace/", placecontroller.Updateplace)
-router.post("/userplaces/", authmiddleware.verifysess, placecontroller.getplaces)
+router.post("/userplaces/", authmiddleware.verifysession, placecontroller.getplaces)
 
 router.post("/users/", usercontroller.fetchuser)
 router.post("/users/:data", usercontroller.fetchuserdata)
