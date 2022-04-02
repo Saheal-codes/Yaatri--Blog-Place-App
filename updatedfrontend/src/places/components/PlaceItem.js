@@ -10,26 +10,20 @@ const PlaceItem = props => {
   const auth = useContext(AuthContext);
   const [showMap, setShowMap] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-
   const openMapHandler = () => setShowMap(true);
-
   const closeMapHandler = () => setShowMap(false);
-
   const showDeleteWarningHandler = () => {
     setShowConfirmModal(true);
   };
-
   const cancelDeleteHandler = () => {
     setShowConfirmModal(false);
 
   };
-
   const confirmDeleteHandler = () => {
     setShowConfirmModal(false);
     props.removeplaces(props.id)
     ;
   };
-
   return (
     <React.Fragment>
       <Modal
@@ -94,5 +88,4 @@ const PlaceItem = props => {
     </React.Fragment>
   );
 };
-
 export default PlaceItem;
