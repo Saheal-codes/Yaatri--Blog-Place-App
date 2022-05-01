@@ -70,7 +70,7 @@ const Auth = (props) => {
         );
         localStorage.setItem("token", response.data.token);
         setstate(response.data.message);
-        props.login(response.data.data);
+        props.login(response.data.user_doc, response.data.data);
         console.log(response);
       } catch (error) {
         console.error(error);

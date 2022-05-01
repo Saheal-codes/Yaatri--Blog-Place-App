@@ -7,7 +7,12 @@ exports.verifysess = async (req, res, next) => {
     return res.status(401).send({ message: "There is no token" });
   }
   try {
-    var decoded = jwt.verify(token, process.env.jwtpass);
+    var decoded;
+    try {
+      decoded = jwt.verify(token, process.env.jwtpass);
+    } catch (err) {
+      return res.status(401).send({ message: "Token is not valid" });
+    }
     var userdoc = await Usermodel.findOne({ _id: decoded._id });
     if (userdoc) {
       res.locals.userid = userdoc._id;

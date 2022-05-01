@@ -12,29 +12,29 @@ exports.login = async (req, res) => {
       user_email: req.body.user_email,
     }).lean();
     if (user_doc == null) {
-      res.send({ message: "There is No ID with this name !" });
+      res.status(400).send({ message: "There is No ID with this name !" });
     } else {
       const decrypted = crypto.AES.decrypt(
         user_doc.user_password,
         process.env.hpass
       ).toString(crypto.enc.Utf8);
       if (decrypted === req.body.user_password) {
-        const { password, ...others } = user_doc._doc;
-        const accesstoken = jwt.sign(others, process.env.jwtpass, {
+        delete user_doc.user_password;
+        const accesstoken = jwt.sign(user_doc, process.env.jwtpass, {
           expiresIn: "6h",
         });
         res.send({
           message: "User logged in Successfully !",
-          message: accesstoken,
-          others,
+          data: accesstoken,
+          user_doc,
         });
       } else {
-        res.send({ message: "Wrong Credentials !" });
+        res.status(401).send({ message: "Wrong Credentials !" });
       }
     }
   } catch (err) {
     console.log(err);
-    res.send(err);
+    res.status(500).send(err);
   }
 };
 // logout
@@ -42,7 +42,10 @@ exports.register = async (req, res) => {
   try {
     const Userdoc = await Usermodel.create({
       user_username: req.body.user_username,
-      user_password: req.body.user_password,
+      user_password: crypto.AES.encrypt(
+        req.body.user_password,
+        process.env.hpass
+      ),
       user_name: req.body.user_name,
       user_email: req.body.user_email,
       user_picture: req.files[0].filename,
@@ -67,7 +70,11 @@ exports.fetchuser = async (req, res) => {
 };
 exports.fetchuserdata = async (req, res) => {
   try {
-    let Userdata = await Usermodel.findOne({ user_username: req.params.data });
+    let Userdata = await Usermodel.findOne({ _id: req.params.data });
+    if (!Userdata) {
+      res.status(404).send({ message: "User not found" });
+      return;
+    }
     let Userplacedata = await placemodel.find({ place_userid: Userdata._id });
     res.send({ Userdata, Userplacedata });
   } catch (err) {

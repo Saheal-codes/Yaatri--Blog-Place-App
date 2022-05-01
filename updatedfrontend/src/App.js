@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Navigate,
@@ -12,7 +12,6 @@ import UserPlaces from "./places/pages/UserPlaces";
 import UpdatePlace from "./places/pages/UpdatePlace";
 import Auth from "./user/pages/Auth";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
-import { AuthContext } from "./shared/context/auth-context";
 import axios from "axios";
 import NewComponent from "./user/pages/places";
 
@@ -39,8 +38,9 @@ const App = () => {
 
   let routes;
 
-  const login = (user) => {
+  const login = (user, token) => {
     setauthenticate({ authenticate: true, user });
+    localStorage.setItem("token", token);
   };
 
   const logout = () => {
@@ -71,12 +71,7 @@ const App = () => {
       </Routes>
     );
   }
-
   return (
-    // <AuthContext.Provider
-    // value={{ login,logout,user:authenticate.user, loginisvalid:authenticate.authenticate }}
-    // >
-
     <Router>
       <MainNavigation
         logout={logout}
@@ -85,8 +80,6 @@ const App = () => {
       />
       <main>{routes}</main>
     </Router>
-    // </AuthContext.Provider>
   );
 };
-
 export default App;
