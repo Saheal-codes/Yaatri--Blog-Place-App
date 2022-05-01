@@ -14,10 +14,10 @@ exports.login = async (req, res) => {
     if (user_doc == null) {
       res.send({ message: "There is No ID with this name !" });
     } else {
-      const decrypted = CryptoJS.AES.decrypt(
+      const decrypted = crypto.AES.decrypt(
         user_doc.user_password,
         process.env.hpass
-      ).toString(CryptoJS.enc.Utf8);
+      ).toString(crypto.enc.Utf8);
       if (decrypted === req.body.user_password) {
         const { password, ...others } = user_doc._doc;
         const accesstoken = jwt.sign(others, process.env.jwtpass, {
