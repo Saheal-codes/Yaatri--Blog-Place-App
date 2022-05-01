@@ -31,7 +31,11 @@ const imageUpload = multer({
 
 router.post("/login/", usercontroller.login);
 router.post("/register/", imageUpload.any(), usercontroller.register);
-router.post("/verify/", authmiddleware.verifysess);
+router.post(
+  "/verify/",
+  authmiddleware.verifysess,
+  usercontroller.verifysession
+);
 
 router.post(
   "/addnewplace/",

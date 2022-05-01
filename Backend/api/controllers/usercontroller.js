@@ -4,27 +4,14 @@ const placemodel = require("../models/placemodels");
 const crypto = require("crypto-js");
 
 exports.verifysession = async (req, res, next) => {
-  const token = req.body.token;
-  if (!token) {
-    return res.status(401).send({ message: "There is no token" });
-  }
-  try {
-    var decoded = jwt.verify(token, process.env.jwtpass);
-    var userdoc = await Usermodel.findOne({ _id: decoded._id }); // _id is a default
-    userdoc
-      ? res.send({ message: "You are logged in !", userdoc })
-      : res.status(401).send({ message: "This token nit valididd" });
-  } catch (err) {
-    console.log(err);
-    res.status(500).send(err);
-  }
+  res.send({ message: "You are logged in !", userdoc: res.users });
 };
 exports.login = async (req, res) => {
   try {
     const user_doc = await Usermodel.findOne({
       user_email: req.body.user_email,
     }).lean();
-    if ((user_doc = null)) {
+    if (user_doc == null) {
       res.send({ message: "There is No ID with this name !" });
     } else {
       const decrypted = CryptoJS.AES.decrypt(
