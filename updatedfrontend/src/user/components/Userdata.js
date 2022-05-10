@@ -4,10 +4,7 @@ import Card from "../../shared/components/UIElements/Card";
 import "./UserItem.css";
 import axios from "axios";
 
-// import { useMatch } from 'reat-router-dom';
-
 const UserData = () => {
-  // const params = useMatch()
   const [user, setUser] = useState(null);
   var params = useParams();
   useEffect(() => {
@@ -21,20 +18,25 @@ const UserData = () => {
       });
   }, [params.userId]);
   if (!user) {
-    return <div>Loading...</div>;
+    return <div>If the page doesn't load, there's no user!</div>;
   }
   return (
     <Card className="user-data">
-      <div className="user-data__avatar">
+      <div className="user-data__image">
         <img
+          className="image"
+          style={{ width: "100%", height: "100%", objectFit: "fill" }}
           src={"http://localhost/public/" + user.user_picture}
           alt={user.user_name}
         />
       </div>
-      <div className="user-data__info">
-        <h2>{user.user_name}</h2>
-        <h3>{user.user_email}</h3>
-        <p>{user.about}</p>
+      <div className="user-data__info" style={{ width: "100%" }}>
+        <center>
+          <h2>@{user.user_username}</h2>
+          <h2>{user.user_name}</h2>
+          <h3>{user.user_email}</h3>
+          <p>{user.about}</p>
+        </center>
       </div>
     </Card>
   );

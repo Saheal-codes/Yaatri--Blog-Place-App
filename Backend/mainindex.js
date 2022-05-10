@@ -10,7 +10,7 @@ app.use("/public", express.static(__dirname + "/api/uploads/"));
 require("./api/models/index.js");
 //routes
 
-app.use(cors());
+app.use(cors({ origin: true }));
 const routes = require("./api/routes/index.js");
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded()); //parsing form data
