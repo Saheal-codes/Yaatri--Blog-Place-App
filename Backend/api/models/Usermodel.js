@@ -11,6 +11,7 @@ const userSchema = new Schema({
     unique: true,
   },
   user_picture: { type: String, required: "Put a nice picture of yourself !" },
+  followers: [{ type: Number, ref: "User" }],
 });
 
 module.exports = mongoose.model("User", userSchema);

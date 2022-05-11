@@ -37,6 +37,7 @@ const UserData = () => {
           <h3>{user.user_email}</h3>
           <p>{user.about}</p>
         </center>
+        <p>Connections : {user.connections}</p>
       </div>
     </Card>
   );
