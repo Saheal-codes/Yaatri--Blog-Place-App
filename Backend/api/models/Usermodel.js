@@ -2,15 +2,19 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  user_username: { type: String, required: "Type your Username", unique: true },
-  user_password: { type: String, required: "Password must be here" },
-  user_name: { type: String, required: "Don't you have a name?!", index: true },
-  user_email: {
+  username: { type: String, required: "Choose your Username", unique: true },
+  password: { type: String, required: "Password must be here" },
+  name: {
+    type: String,
+    required: "Did not recieve a name, did you send it?!",
+    index: true,
+  },
+  email: {
     type: String,
     required: "Don't you have an Email?!",
     unique: true,
   },
-  user_picture: { type: String, required: "Put a nice picture of yourself !" },
+  picture: { type: String },
   followers: [{ type: Number, ref: "User" }],
 });
 

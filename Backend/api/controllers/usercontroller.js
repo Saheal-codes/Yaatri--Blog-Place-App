@@ -41,14 +41,11 @@ exports.login = async (req, res) => {
 exports.register = async (req, res) => {
   try {
     const Userdoc = await Usermodel.create({
-      user_username: req.body.user_username,
-      user_password: crypto.AES.encrypt(
-        req.body.user_password,
-        process.env.hpass
-      ),
-      user_name: req.body.user_name,
-      user_email: req.body.user_email,
-      user_picture: req.files[0].filename,
+      username: req.body.username,
+      password: bcrypt.hashSync(req.body.user_password, 10),
+      name: req.body.fullName,
+      email: req.body.user_email,
+      picture: req.files[0].filename,
     });
     res.send({
       data: Userdoc,

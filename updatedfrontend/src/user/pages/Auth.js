@@ -88,9 +88,7 @@ const Auth = (props) => {
           "http://localhost:80/register/",
           userdata
         );
-
         setstate(response.data.message);
-
         console.log(response);
       } catch (error) {
         console.error(error);
@@ -155,7 +153,8 @@ const Auth = (props) => {
         />
       )}
 
-      <Button type="submit">{isLoginMode ? "LOGIN" : "SIGNUP"}</Button>
+      <Button type="submit">{isLoginMode ? "LOGIN" : "SIGNUP"}
+      </Button>
     </form>
   );
 
